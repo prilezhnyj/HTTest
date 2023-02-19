@@ -81,12 +81,11 @@ class ImageViewController: UIViewController {
         setupTargets()
     }
     
-    // viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         imageCollectionView.performBatchUpdates {
             imageCollectionView.scrollToItem(at: currentImageIndexPath, at: .centeredHorizontally, animated: true)
+            imageCollectionView.reloadData()
         }
     }
     
@@ -144,7 +143,6 @@ extension ImageViewController: UICollectionViewDelegateFlowLayout {
         let size = collectionView.frame
         return CGSize(width: size.width , height: size.width)
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return CGFloat(0)

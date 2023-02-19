@@ -16,7 +16,9 @@ class SearchViewModel {
     func getSerach(forText text: String) {
         Network.instanse.getSerach(searchText: text) { [weak self] searchModel in
             guard let searchModel = searchModel else { return }
-            self?.images = searchModel.imagesResults
+            DispatchQueue.main.async {
+                self?.images = searchModel.imagesResults
+            }
         }
     }
 }

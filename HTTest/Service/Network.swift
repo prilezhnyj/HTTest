@@ -14,12 +14,32 @@ final class Network {
     
     // create request
     private func request(searchText: String, completion: @escaping (Data?, Error?) -> Void) {
-        let urlStr = "https://serpapi.com/search.json?q=\(searchText)&tbm=isch&ijn=0"
-        guard let url = URL(string: urlStr) else { return }
+        let url = createURL(param: prepareParam(searchText: searchText))
+        print(url)
         var request = URLRequest(url: url)
         request.httpMethod = "get"
         let task = dataTask(from: request, completion: completion)
         task.resume()
+    }
+    
+    private func prepareParam(searchText: String?) -> [String: String] {
+        var param = [String: String]()
+        param["q"] = searchText
+        param["tbm"] = "isch"
+        param["ijn"] = "0"
+        param["async"] = "false"
+        param["api_key"] = "1f69fe6aed7cd2cf9122f55db032c5d46caf277b9708f66c321edc3750e43c32"
+        return param
+        
+    }
+    
+    private func createURL(param: [String: String]) -> URL {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "serpapi.com"
+        components.path = "/search"
+        components.queryItems = param.map({ URLQueryItem(name: $0, value: $1)})
+        return components.url!
     }
     
     // create task

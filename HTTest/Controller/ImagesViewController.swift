@@ -89,8 +89,10 @@ extension ImagesViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UISearchBarDelegate
 extension ImagesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel.getSerach(forText: searchText)
-        imagesCollectionView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.viewModel.getSerach(forText: searchText)
+            self?.imagesCollectionView.reloadData()
+        }
     }
 }
 
